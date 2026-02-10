@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import HeroSection from '@/components/HeroSection';
 import GallerySection from '@/components/GallerySection';
+import DaysCounterSection from '@/components/DaysCounterSection';
 
 export default function Home() {
   const [heroCompleted, setHeroCompleted] = useState(false);
@@ -16,6 +17,7 @@ export default function Home() {
       {heroCompleted && (
         <div style={{ position: 'relative', zIndex: 20, marginTop: '100vh' }}>
           <GallerySection />
+          <DaysCounterSection />
         </div>
       )}
     </main>
