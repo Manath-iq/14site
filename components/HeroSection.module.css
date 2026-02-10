@@ -1,0 +1,420 @@
+.heroContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--background);
+  color: var(--foreground);
+  overflow: hidden;
+  z-index: 100;
+  font-family: 'Inter', sans-serif;
+  transition: transform 0.8s ease;
+}
+
+.completed {
+  transform: translateY(-100%);
+  pointer-events: none;
+}
+
+/* --- Grid Layer --- */
+.gridLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.gridLineVertical {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: var(--grid-line);
+}
+
+.gridLineHorizontal {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--grid-line);
+}
+
+/* --- Header --- */
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 40px;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.headerTop {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  /* Align right mostly */
+  align-items: flex-start;
+  position: relative;
+}
+
+.logoMarkWrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.heartWrapper {
+  width: 50px;
+  height: 50px;
+  /* Ensure it has size for Canvas */
+}
+
+.headerInfo {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.statusDot {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background-color: #4ade80;
+  /* Green */
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
+}
+
+.statusText {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
+.statusSub {
+  color: var(--accent-grey);
+  font-size: 0.7rem;
+  margin-top: 2px;
+}
+
+.timeBlock {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  text-align: right;
+}
+
+.timezone {
+  color: var(--accent-grey);
+  font-size: 0.7rem;
+}
+
+.menuTrigger {
+  width: 40px;
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  align-items: flex-end;
+}
+
+.menuLine {
+  width: 100%;
+  height: 2px;
+  background-color: white;
+}
+
+.menuTrigger .menuLine:last-child {
+  width: 60%;
+}
+
+/* --- Big Text Layer --- */
+.bigTextLayer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* Centered purely */
+  z-index: 2;
+  pointer-events: none;
+  width: 100%;
+  text-align: center;
+  /* Slightly move up to leave room for carousel curvature */
+  margin-top: -5vh;
+}
+
+.bigText {
+  font-size: 15vw;
+  /* Slightly smaller to fit "HISTORY" */
+  font-weight: 300;
+  /* Thinner font */
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  display: inline-block;
+  position: relative;
+  /* Blend mode can be cool but risky with photos, trying simple z-index first */
+}
+
+.bigTextRegistered {
+  font-size: 3vw;
+  vertical-align: top;
+  position: absolute;
+  top: 10%;
+  right: -5%;
+  border: 0.1vw solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  width: 4vw;
+  height: 4vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+}
+
+/* --- Floating UI --- */
+.floatingUI {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+/* Restored Title - "Как это начиналось" */
+.title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  z-index: 200;
+  text-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.title.visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.sideTextLeft {
+  position: absolute;
+  left: 5%;
+  top: 40%;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: white;
+}
+
+.dim {
+  color: var(--accent-grey);
+  font-weight: 400;
+}
+
+.sideTextRight {
+  position: absolute;
+  right: 5%;
+  top: 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: right;
+  font-size: 0.85rem;
+  color: white;
+}
+
+.serviceItem {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+}
+
+.serviceNum {
+  color: var(--accent-grey);
+}
+
+.circularButton {
+  position: absolute;
+  bottom: 25%;
+  left: 5%;
+  width: 60px;
+  height: 60px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.circularButton:hover {
+  border-color: white;
+  transform: scale(1.1);
+}
+
+.copyright {
+  position: absolute;
+  bottom: 25%;
+  right: 5%;
+  font-size: 5rem;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  opacity: 1;
+}
+
+/* --- Footer Layer --- */
+.footerLayer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  display: flex;
+  align-items: center;
+  padding: 0 5%;
+  z-index: 10;
+  border-top: 1px solid var(--grid-line);
+}
+
+.statGroup {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.statNumber {
+  font-size: 4rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 0.75rem;
+  line-height: 1.3;
+  color: var(--foreground);
+}
+
+.statDivider {
+  width: 1px;
+  height: 40px;
+  background: var(--grid-line);
+  margin: 0 40px;
+}
+
+.footerBrand {
+  margin-left: auto;
+  text-align: left;
+}
+
+.footerLogo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.footerDesc {
+  font-size: 0.8rem;
+  color: var(--accent-grey);
+  line-height: 1.4;
+}
+
+/* --- Carousel Layer --- */
+.carouselLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  /* Between big text/grid and Floating UI */
+  pointer-events: none;
+  /* Let clicks pass through if needed, but wheel is on container */
+}
+
+.photosContainer {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateY(-50%);
+}
+
+.photoWrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* Fixed height, variable width */
+  height: 350px;
+  width: auto;
+  transform-origin: center center;
+  will-change: transform, opacity, filter;
+  /* Ensure images don't overflow wrapper */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo {
+  border-radius: 4px;
+  /* Slightly reduced radius for cleaner look */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  /* Ensure image respects aspect ratio */
+  object-fit: contain;
+  width: auto;
+  height: 100%;
+}
+
+/* Responsive tweaks */
+@media (max-width: 1024px) {
+  .bigText {
+    font-size: 20vw;
+  }
+
+  .statNumber {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .footerLayer {
+    display: none;
+    /* Simplify for mobile for now or stack */
+  }
+
+  .sideTextLeft,
+  .sideTextRight {
+    display: none;
+  }
+
+  .bigText {
+    font-size: 25vw;
+  }
+
+  .header {
+    padding: 20px;
+  }
+}
