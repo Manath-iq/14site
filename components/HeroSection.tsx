@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import styles from './HeroSection.module.css';
-import Heart3D from './Heart3D';
 
 // Список фотографий
 const photos = [
@@ -34,7 +33,6 @@ export default function HeroSection({ onComplete }: HeroSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef(0);
   const [, forceUpdate] = useState({});
-  const [showTitle, setShowTitle] = useState(true);
   const [isCompleted, setIsCompleted] = useState(false);
 
   // Time state
@@ -72,7 +70,6 @@ export default function HeroSection({ onComplete }: HeroSectionProps) {
       newProgress = Math.max(0, Math.min(newProgress, maxProgress));
 
       progressRef.current = newProgress;
-      setShowTitle(newProgress < 0.05);
 
       if (newProgress >= completionThreshold && !isCompleted) {
         setIsCompleted(true);
@@ -153,11 +150,6 @@ export default function HeroSection({ onComplete }: HeroSectionProps) {
       <header className={styles.header}>
         <div className={styles.headerTop}>
 
-          <div className={styles.logoMarkWrapper}>
-            <div className={styles.heartWrapper}>
-              <Heart3D />
-            </div>
-          </div>
           <div className={styles.headerInfo}>
             <div className={styles.statusDot}>
               <span className={styles.dot} />
@@ -206,11 +198,6 @@ export default function HeroSection({ onComplete }: HeroSectionProps) {
 
       {/* Floating UI Elements */}
       <div className={styles.floatingUI}>
-        {/* Заголовок "Как это начиналось" */}
-        <h1 className={`${styles.title} ${showTitle ? styles.visible : ''}`}>
-          Как это начиналось
-        </h1>
-
         <div className={styles.sideTextLeft}>
           OUR STORY<br />
           <span className={styles.dim}>WRITTEN<br />TOGETHER</span>

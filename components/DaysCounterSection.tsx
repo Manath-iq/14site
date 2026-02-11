@@ -1,11 +1,15 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import VariableProximity from './VariableProximity';
+import FallingHearts from './FallingHearts';
 
 export default function DaysCounterSection() {
     const [days, setDays] = useState(0);
+    const [clickCount, setClickCount] = useState(0);
+    const [lastClickTime, setLastClickTime] = useState(0);
+    const [showHearts, setShowHearts] = useState(false);
 
     useEffect(() => {
         const startDate = new Date('2024-07-30T00:00:00');
@@ -24,6 +28,24 @@ export default function DaysCounterSection() {
         setDays(diffDays);
     }, []);
 
+    const handleTripleClick = useCallback(() => {
+        const now = Date.now();
+        const timeDiff = now - lastClickTime;
+
+        if (timeDiff < 500) { // 500ms threshold for consecutive clicks
+            const newCount = clickCount + 1;
+            setClickCount(newCount);
+
+            if (newCount === 3) {
+                setShowHearts(true);
+                setClickCount(0); // Reset after triggering
+            }
+        } else {
+            setClickCount(1); // Reset if too slow
+        }
+        setLastClickTime(now);
+    }, [clickCount, lastClickTime]);
+
     return (
         <section style={{
             width: '100vw',
@@ -38,6 +60,8 @@ export default function DaysCounterSection() {
             zIndex: 10,
             padding: '10vh 0'
         }}>
+            {showHearts && <FallingHearts onComplete={() => setShowHearts(false)} />}
+
             <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -48,11 +72,14 @@ export default function DaysCounterSection() {
                     label={days.toString()}
                     className="days-counter"
                     radius={300}
+                    onClick={handleTripleClick}
                     style={{
                         fontSize: '15vw',
                         lineHeight: 1,
                         margin: 0,
-                        fontFamily: 'Inter, sans-serif'
+                        fontFamily: 'Inter, sans-serif',
+                        cursor: 'pointer',
+                        userSelect: 'none'
                     }}
                 />
                 <p style={{
