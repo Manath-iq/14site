@@ -5,9 +5,15 @@ import HeroSection from '@/components/HeroSection';
 import GallerySection from '@/components/GallerySection';
 import DaysCounterSection from '@/components/DaysCounterSection';
 import FinalSection from '@/components/FinalSection';
+import GiftRevealSection from '@/components/GiftRevealSection';
 
 export default function Home() {
   const [heroCompleted, setHeroCompleted] = useState(false);
+  const [giftRevealed, setGiftRevealed] = useState(false);
+
+  if (!giftRevealed) {
+    return <GiftRevealSection onReveal={() => setGiftRevealed(true)} />;
+  }
 
   return (
     <main style={{ backgroundColor: '#000', minHeight: '100vh', overflowX: 'hidden' }}>
